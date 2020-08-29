@@ -1,0 +1,11 @@
+{
+  "watch": ["src/**", "config/**"],
+  "restartable": "rs",
+  "verbose": false,
+  "exec": "ts-node -r dotenv/config -r tsconfig-paths/register src/main.ts dotenv_config_path=./config/development/.env",
+  "ignore": ["src/**/*.spec.ts","/node_modules/**", "test/**"],
+  "nodeArgs": [
+    {"NODE_ENV":"dev"}
+  ],
+  "ext": "js,ts, jade, tsx, jsx, mjs"
+}
