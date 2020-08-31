@@ -70,7 +70,7 @@ export class DatabaseConnService {
             try {
                 console.log('creating conn first time');
                 const conn = await this.createPostgresConnection();
-                console.log('conn', conn);
+
                 this.databaseConnSubject.next(conn);
             } catch (err) {
                 console.log('err out', err);

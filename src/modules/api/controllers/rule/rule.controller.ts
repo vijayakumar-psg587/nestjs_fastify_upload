@@ -19,7 +19,7 @@ export class RuleController {
 
     @Post('/fileUpload')
     async uploadFile(@Req() req: FastifyRequest, @Res() reply: FastifyReply ) {
-       return await this.fileService.fileUploadService(req, reply)
+       return await this.fileService.fileUploadService(req, reply);
 
     }
 }

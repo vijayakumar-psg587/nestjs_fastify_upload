@@ -4,7 +4,7 @@ import {FastifyAdapter, NestFastifyApplication} from "@nestjs/platform-fastify";
 import {SERVERADAPTERINSTANCE} from "./server.adapter";
 import {AppConfigService} from "./modules/shared/services/app-config.service";
 import {CustomExceptionFilter} from "./modules/shared/filters/custom-exception.filter";
-import fmp = require('fastify-multipart');
+import * as fmp from 'fastify-multipart';
 import "reflect-metadata";
 let app: NestFastifyApplication;
 
@@ -20,7 +20,7 @@ let app: NestFastifyApplication;
     process.exit(1);
   });
 
-  console.log(global["dbConnObs"]);
+
   app.setGlobalPrefix(appConfig.context_path);
 
 
@@ -33,7 +33,16 @@ let app: NestFastifyApplication;
   SERVERADAPTERINSTANCE.configureGlobalInterceptors(app);
 
   // @ts-ignore
-  app.register(fmp);
+  app.register(fmp, {
+    limits: {
+      fieldNameSize: 100, // Max field name size in bytes
+      fieldSize: 1000000, // Max field value size in bytes
+      fields: 10,         // Max number of non-file fields
+      fileSize: 100000000000,      // For multipart forms, the max file size
+      files: 3,           // Max number of file fields
+      headerPairs: 2000   // Max number of header key=>value pairs
+    }
+  });
   SERVERADAPTERINSTANCE.configureSecurity(app);
   await SERVERADAPTERINSTANCE.configureDbConn(app);
 
