@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import {MiddlewareConsumer, Module, NestModule} from '@nestjs/common';
 import { RuleController } from './controllers/rule/rule.controller';
 import {DatabaseModule} from "../database/database.module";
 import {SharedModule} from "../shared/shared.module";
@@ -10,4 +10,6 @@ import { RuleFileService } from './services/rule-file/rule-file.service';
   imports: [DatabaseModule, SharedModule, LogModule],
   providers: [RuleFileService]
 })
-export class ApiModule {}
+export class ApiModule{
+
+}

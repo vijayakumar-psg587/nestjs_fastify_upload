@@ -10,6 +10,7 @@ import { RetryService } from '../../../shared/services/retry/retry.service';
 import { take } from 'rxjs/operators';
 import { AppUtilService } from '../../../shared/services/app-util.service';
 import {getConnection} from "typeorm/index";
+import {RuleFileEntity} from "../../models/entities/rule-file.entity";
 
 @Injectable({
     scope: Scope.DEFAULT,
@@ -31,17 +32,20 @@ export class DatabaseConnService {
             .setUser(process.env.TYPEORM_USERNAME)
             .setPassword(atob(process.env.TYPEORM_PASSWORD))
             .setPort(process.env.TYPEORM_PORT)
+            .setDatabase(process.env.TYPEORM_DATABASE)
             .setHost(process.env.TYPEORM_HOST)
             .setRetries(process.env.TYPEORM_RETRIES)
             .setRetryDelay(process.env.TYPEORM_RETRY_DELAY)
+
             .isSynchronize(process.env.TYPEORM_SYNC === 'true')
             .build();
     }
 
     async createPostgresConnection(): Promise<Connection> {
         return await createConnection({
-            name: APP_CONSTANTS.DATABASE.CONNECTION.NAME,
-            type: 'postgres',
+
+            type: DatabaseTypeEnum.POSTGRES,
+            schema: 'public',
             host: this.databaseConfigModel.host,
             port: this.databaseConfigModel.port,
             username: this.databaseConfigModel.username,
@@ -49,7 +53,7 @@ export class DatabaseConnService {
             database: this.databaseConfigModel.database,
             logging: true,
             synchronize: this.databaseConfigModel.synchronize,
-            entities: [],
+            entities: [RuleFileEntity],
         });
     }
 

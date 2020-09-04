@@ -1,6 +1,4 @@
 import * as fastify from 'fastify';
-import * as fs from 'fs';
-import * as path from 'path';
 import { AppConfigService } from './modules/shared/services/app-config.service';
 import { CommonModel } from './modules/shared/models/common.model';
 import { v4 as uuidv4 } from 'uuid';
@@ -15,9 +13,10 @@ import * as fastifyHelmet from 'fastify-helmet';
 import { IncomingMessage, Server, ServerResponse } from 'http';
 import * as fastifyCookie from 'fastify-cookie';
 import * as fastifyCSRF from 'fastify-csrf';
+import * as multer from 'fastify-multer';
 import {DatabaseModule} from "./modules/database/database.module";
 import {DatabaseConnService} from "./modules/database/services/database-conn/database-conn.service";
-
+import * as path from 'path';
 
 export class ServerAdapter {
     private readonly appConfigModel: CommonModel;
@@ -61,6 +60,14 @@ export class ServerAdapter {
         app.useGlobalInterceptors(corsInterceptor);
     }
 
+    configureMulter(app){
+        app.register(multer( {dest:path.join(process.cwd()+'/upload'),
+        limits:{
+            fields: 5, //Number of non-file fields allowed
+            files: 1,
+            fileSize: 2097152,// 2 MB,
+        }}).contentParser);
+    }
     configureSecurity(app) {
         app.register(fastifyHelmet, {
             hsts: {
@@ -81,15 +88,19 @@ export class ServerAdapter {
                 },
             }
         });
-        // app.register(fastifyCookie, {key: '_csrf'});
-        // app.register(fastifyCSRF, { cookie: true, secure: true, ignoreMethods: ['GET', 'OPTIONS', 'HEAD']});
+        // app.register(require('fastify-cookie'), {key: '_csrf'});
+        // app.register(require('fastify-csrf'), { cookie: true, secure: true, ignoreMethods: ['GET', 'OPTIONS', 'HEAD']});
     }
 
     async configureDbConn(app: NestFastifyApplication) {
        const dbService = app.select(DatabaseModule).get(DatabaseConnService);
-        await dbService.getDatabaseConnectionAfterImplicitRetries().catch(err => {
-            console.log('database err:', err);
-        })
+       try {
+           await dbService.getDatabaseConnectionAfterImplicitRetries();
+           console.log('dbConn created successfully');
+       } catch(err) {
+           console.log('database err:', err);
+       }
+
     }
 
     configureSwaggerModel() {

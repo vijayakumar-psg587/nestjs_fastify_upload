@@ -20,6 +20,11 @@ export class DatabaseConfigModelBuilder {
         }
     }
 
+    setDatabase(dbName: string):DatabaseConfigModelBuilder {
+        this.databaseConfigModel.database = dbName;
+        return  this;
+    }
+
     setType(inputType: DatabaseTypeEnum): DatabaseConfigModelBuilder {
         this.databaseConfigModel.type = inputType;
         return this;
