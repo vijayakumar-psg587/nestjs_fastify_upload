@@ -74,6 +74,7 @@ export const APP_CONSTANTS = {
     },
   },
   REGEX: {
-    MULTIPART_CONTENT_TYPE: /^(multipart)[\/\\\-\w]*$/
+    MULTIPART_CONTENT_TYPE: /^(multipart)[\/\\\-\w]*$/,
+    FILE_NAME: /^[\w]{2,}(.(csv|xls|xlsx|env))$/
   }
 };
