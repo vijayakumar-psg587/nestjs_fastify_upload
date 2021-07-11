@@ -26,50 +26,39 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Project is created using [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository. THis uses fastifyjs for performance
+This repo shows how fastify+nestjs can be used to upload files as streams
+
+It makes of multipart to divide the file as chunks (possible to use multiple files as well) . 
+Rules are validated using decorators to further strengthen the robustness of the input file
+
+For now , the upload is just kept simple to local, but it can be further enhanced with a blob storage being used 
+
+
 
 ## Installation
 
 ```bash
 $ npm install
-```
+
+
 
 ## Running the app
+This uses nodemon for development. It inherently watches for changes
 
 ```bash
 # development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+$ npm run start:nodemon:dev
 ```
 
-## Test
+# build
+$ npm run build:webpack:dev
 
-```bash
-# unit tests
-$ npm run test
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - Vijayakumar S
+- Website - [Vijayakumar S](www.linkedin.com/in/vijay-kumar-shanmugam)
+- Twitter - [@nestframework](https://twitter.com/handofgod_10/)
 
-## License
-
-  Nest is [MIT licensed](LICENSE).
